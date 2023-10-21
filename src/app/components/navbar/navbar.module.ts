@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar.component';
-import { managementRoutingModule } from 'src/app/management/management.routing.module';
+import { ManagementRoutingModule } from 'src/app/management/management.routing.module';
 
 
 
@@ -11,7 +11,7 @@ import { managementRoutingModule } from 'src/app/management/management.routing.m
   ],
   imports: [
     CommonModule,
-    managementRoutingModule
+    ManagementRoutingModule
   ],
   exports: [
     NavbarComponent
