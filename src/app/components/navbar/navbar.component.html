@@ -1,30 +1,39 @@
 <header class="header">
+    <div class="options">
+        <a class="option" routerLink="/employees" routerLinkActive="active-link">
+            <div class="button">
+                <span class="button__lable">Empleados</span>
+                <span class="fa fa-location-arrow button__icon"></span>
+                <div class="border-bottom"></div>
+            </div>
+        </a>
+
+        <a class="option" routerLink="/roles" routerLinkActive="active-link">
+            <div class="button">
+                <span class="button__lable">Roles</span>
+                <span class="fa fa-location-arrow button__icon"></span>
+                <div class="border-bottom"></div>
+            </div>
+        </a>
+
+        <a class="option" routerLink="/products" routerLinkActive="active-link">
+            <div class="button">
+                <span class="button__lable">Productos</span>
+                <span class="fa fa-location-arrow button__icon"></span>
+                <div class="border-bottom"></div>
+            </div>
+        </a>
+
+        <a class="option" routerLink="/production" routerLinkActive="active-link">
+            <div class="button">
+                <span class="button__lable">Producción</span>
+                <span class="fa fa-location-arrow button__icon"></span>
+                <div class="border-bottom"></div>
+            </div>
+        </a>
+    </div>
+
     <div>
-        <a class="button-container" routerLink="employees" routerLinkActive="active-link"
-            [routerLinkActiveOptions]="{exact: true}">
-            <div class="button">
-                <span>Promocionar</span>
-                <div class="border-bottom"></div>
-            </div>
-        </a>
-        <a class="button-container" routerLink="roles" routerLinkActive="active-link">
-            <div class="button">
-                <span>rendimiento</span>
-                <div class="border-bottom"></div>
-            </div>
-        </a>
-        <a class="button-container" routerLink="products" routerLinkActive="active-link"
-            [routerLinkActiveOptions]="{exact: true}">
-            <div class="button">
-                <span>Promocionar</span>
-                <div class="border-bottom"></div>
-            </div>
-        </a>
-        <a class="button-container" routerLink="production" routerLinkActive="active-link">
-            <div class="button">
-                <span>rendimiento</span>
-                <div class="border-bottom"></div>
-            </div>
-        </a>
+        
     </div>
 </header>
