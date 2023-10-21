@@ -1,0 +1,94 @@
+.drop-down-container {
+  text-align: initial;
+  color: $text-color;
+  font-weight: 600;
+  position: relative;
+
+  .combo-box,
+  .search-box {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: stretch;
+    border-radius: 4px;
+    border: 1px solid $border-color;
+    transition: border-color 0.2s ease;
+    background-color: $blue-bg;
+    color: $text-color;
+
+    &__input {
+      height: 30px;
+      border: none;
+      margin: 4px 4px 4px 10px;
+      font-size: inherit;
+      font-weight: 600;
+      color: $text-color;
+      transition: width 0.2s ease;
+      background-color: transparent;
+      outline: none;
+      width: calc(100% - 14px);
+    }
+
+    .icons-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 35px;
+
+      .icon {
+        font-weight: bolder;
+        color: $text-color;
+      }
+    }
+  }
+
+  .combo-box {
+    cursor: pointer;
+    input {
+      cursor: pointer;
+    }
+    .icons-container {
+      .icon {
+        transition: transform 0.2s ease;
+      }
+      .open-icon {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .search-box {
+    &:focus-within {
+      border-color: $blue;
+    }
+  }
+
+  .options-container {
+    display: none;
+    flex-direction: column;
+    z-index: 7;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    min-width: 100%;
+    background-color: white;
+    border: 1px solid $border-color;
+    border-radius: 0.5rem;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-width: 500px;
+
+    .option {
+      display: inline-flex;
+      padding: 0.5rem 0.5rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $gray-bg;
+      }
+    }
+  }
+
+  .open {
+    display: flex;
+  }
+}

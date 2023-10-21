@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ManagementComponent } from './management/management.component';
+import { AuthGuard } from './guards/user/auth.guard';
 
-const routes: Routes = [];
+export const APP_ROUTES: Routes = [
+  { path: '', component: ManagementComponent, canActivate: [AuthGuard] },
+  { path: '', redirectTo: '', pathMatch: 'full' },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
+];
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
+export const APP_ROUTING = RouterModule.forRoot(APP_ROUTES, {scrollPositionRestoration: "top"});
