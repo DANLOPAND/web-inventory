@@ -1,12 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ManagementComponent } from './management.component';
+import { ManagementGuard } from './management.guard';
 
 const routes: Routes = [
-  { path: 'roles', loadChildren: ()=> import('./components/roles/roles.module').then(m => m.RolesModule)},
-  { path: 'employees', loadChildren: ()=> import('./components/employees/employees.module').then(m => m.EmployeesModule)},
-  { path: 'products', loadChildren: ()=> import('./components/products/products.module').then(m => m.ProductsModule)},
-  { path: 'production', loadChildren: ()=> import('./components/production/production.module').then(m => m.ProductionModule)},
+  {
+    path: 'management', component: ManagementComponent, canActivate: [ManagementGuard],
+    children: [
+      { path: 'roles', loadChildren: ()=> import('./components/roles/roles.module').then(m => m.RolesModule)},
+      { path: 'employees', loadChildren: ()=> import('./components/employees/employees.module').then(m => m.EmployeesModule)},
+      { path: 'products', loadChildren: ()=> import('./components/products/products.module').then(m => m.ProductsModule)},
+      { path: 'production', loadChildren: ()=> import('./components/production/production.module').then(m => m.ProductionModule)},
+      { path: '', redirectTo: 'employees', pathMatch: 'full' },
+    ],
+  },
 ];
 
 

@@ -1,0 +1,19 @@
+:host {
+    display: flex;
+    height: 100%;
+    width: 1350px;
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.form {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-radius: 0.5rem;
+    background-color: white;
+    box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.377);
+    align-items: center;
+}

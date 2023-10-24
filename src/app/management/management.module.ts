@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ManagementComponent } from './management.component';
-import { ManagementRoutingModule } from './management.routing.module';
 import { RouterModule } from '@angular/router';
+import { ManagementRoutingModule } from './management.routing.module';
 
 
 
@@ -12,8 +12,8 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    ManagementRoutingModule,
-    RouterModule
+    RouterModule,
+    ManagementRoutingModule
   ]
 })
 export class ManagementModule { }

@@ -140,7 +140,6 @@
     border-collapse: collapse;
     width: 100%;
     color: $text-color;
-    font-weight: 600;
 
     thead {
       position: sticky;
@@ -180,16 +179,15 @@
 
     th {
       background-color: $blue-bg;
-      font-weight: bold;
       text-align: left;
-      font-size: 17px;
+      font-size: 16px;
       padding: 0.6rem;
       transition: background-color 0.2s ease;
 
       &:hover {
-        border-radius: 1.5rem;
-        background-color: $hover-shadow;
         cursor: pointer;
+        background-color: $hover-shadow;
+
       }
 
       &.disabled {
@@ -237,13 +235,13 @@
     }
 
     .upward {
-      .icon-arrow-down {
+      .fa-arrow-down {
         display: none;
       }
     }
 
     .downward {
-      .icon-arrow-up {
+      .fa-arrow-up {
         display: none;
       }
     }

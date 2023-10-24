@@ -3,8 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { NavbarModule } from './components/navbar/navbar.module';
-import { ManagementModule } from './management/management.module';
 import { AppRoutingModule } from './app-routing.module';
+import { AppService } from './app.service';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { ManagementGuard } from './management/management.guard';
+import { LoginGuard } from './login/login.guard';
 
 @NgModule({
   declarations: [
@@ -13,10 +17,11 @@ import { AppRoutingModule } from './app-routing.module';
   imports: [
     BrowserModule,
     NavbarModule,
-    ManagementModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    RouterModule
   ],
-  providers: [],
+  providers: [AppService, ManagementGuard, LoginGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

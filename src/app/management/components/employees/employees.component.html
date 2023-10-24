@@ -1,1 +1,64 @@
-<p>employees works!</p>
+<div class="container">
+    <div class="content">
+        <div class="actions">
+            <span>{{employees.length}} empleados</span>
+        </div>
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th (click)="changeFilter(0)"
+                            [ngClass]="{'upward': ascendent && selectedFilter === 0, 'downward': !ascendent && selectedFilter === 0}">
+                            <div class="column-header">
+                                <span class="column-header__text">CC</span>
+                                <div class="column-header__icons">
+                                    <span class="column-header__icons-icon fa fa-arrow-up"></span>
+                                    <span class="column-header__icons-icon fa fa-arrow-down"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="changeFilter(1)"
+                            [ngClass]="{'upward': ascendent && selectedFilter === 1, 'downward': !ascendent && selectedFilter === 1}">
+                            <div class="column-header">
+                                <span class="column-header__text">Nombre</span>
+                                <div class="column-header__icons">
+                                    <span class="column-header__icons-icon fa fa-arrow-up"></span>
+                                    <span class="column-header__icons-icon fa fa-arrow-down"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="changeFilter(2)"
+                            [ngClass]="{'upward': ascendent && selectedFilter === 2, 'downward': !ascendent && selectedFilter === 2}">
+                            <div class="column-header">
+                                <span class="column-header__text">Rol</span>
+                                <div class="column-header__icons">
+                                    <span class="column-header__icons-icon fa fa-arrow-up"></span>
+                                    <span class="column-header__icons-icon fa fa-arrow-down"></span>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let employee of employees">
+                        <td>
+                            <span>
+                                {{employee.cc}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{employee.name}} {{employee.lastName}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{employee.role.userType}}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

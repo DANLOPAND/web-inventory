@@ -1,14 +1,20 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { ManagementComponent } from './management/management.component';
-import { AuthGuard } from './guards/user/auth.guard';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
-export const APP_ROUTES: Routes = [
-  { path: '', component: ManagementComponent },
+const routes: Routes = [
+  {
+    path: 'login',
+    loadChildren: ()=> import('./login/login.module').then(m => m.LoginModule),
+  },  {
+    path: 'management',
+    loadChildren: ()=> import('./management/management.module').then(m => m.ManagementModule),
+  },
+  { path: '**', redirectTo: 'management/employees' }
+  // Otras rutas
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(APP_ROUTES)],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

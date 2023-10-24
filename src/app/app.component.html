@@ -1,4 +1,4 @@
 <div class="main">
-    <navbar></navbar>
+    <navbar *ngIf="_appService.loadNavbar"></navbar>
     <router-outlet></router-outlet>
 </div>

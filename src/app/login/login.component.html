@@ -1,1 +1,20 @@
-<p>login works!</p>
+<div>
+    <form class="form" [formGroup]="registrationForm" (ngSubmit)="login()">
+        <h3 class="form__title">Iniciar sesión</h3>
+        <div class="label">
+            CC
+            <input class="form-control input password" placeholder="10000000" type="text" id="cc" autocomplete="true"
+                formControlName="cc">
+        </div>
+        <div class="label">
+            Contraseña
+            <input class="form-control input password" placeholder="Contraseña" type="text" id="password"
+                autocomplete="true" formControlName="password">
+        </div>
+
+        <button class="btn btn__blue save small" type="submit"><span *ngIf="!loading">Guardar cambios</span>
+            <div class="loader-circle" *ngIf="loading">
+            </div>
+        </button>
+    </form>
+</div>
