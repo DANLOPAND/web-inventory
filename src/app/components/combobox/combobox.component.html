@@ -1,0 +1,16 @@
+<div class="drop-down-container" [ngClass]="{'disabled': disabled}" (clickOutsideDdown)="showOptions = false">
+    <div class="combo-box" tabindex="0" (click)="showOptionsToggle()" (keypress)="onComboBoxKeyPress($event)" #comboBox>
+        <input class="combo-box__input" tabindex="-1" type="text"
+            value="{{selectedItem ? (displayProperty ? selectedItem[displayProperty] : selectedItem) : ''}}" readonly
+            placeholder="...">
+        <div class="icons-container">
+            <span class="fa fa-angle-down icon" [ngClass]="{'open-icon': showOptions}"></span>
+        </div>
+    </div>
+    <ul class="options-container" [ngClass]="{'open': showOptions && items.length !== 0}">
+        <li class="option" [id]="'option-'+id+'-'+i" tabindex="0" *ngFor="let item of items; let i = index"
+            [ngClass]="{'isSelected': selectedItem == item}" (click)="selectItem(item)">
+            {{ (displayProperty ? item[displayProperty] : item)}}
+        </li>
+    </ul>
+</div>

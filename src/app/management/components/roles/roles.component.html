@@ -1,1 +1,56 @@
-<p>roles works!</p>
+<div class="container">
+    <div class="content">
+        <div class="actions">
+            <span>{{_managementService.rolesInfo.length}} empleados</span>
+            <search-bar class="searcher" (searchQueryEmit)="onSearchQuery($event)"
+                placeholder="Buscar empleado..."></search-bar>
+            <button class="btn btn__white" (click)="openAddModal()">Agregar</button>
+
+        </div>
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th (click)="changeFilter(0)"
+                            [ngClass]="{'upward': ascendent && selectedFilter === 0, 'downward': !ascendent && selectedFilter === 0}">
+                            <div class="column-header">
+                                <span class="column-header__text">Id</span>
+                                <div class="column-header__icons">
+                                    <span class="column-header__icons-icon fa fa-angle-up"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-down"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="changeFilter(1)"
+                            [ngClass]="{'upward': ascendent && selectedFilter === 1, 'downward': !ascendent && selectedFilter === 1}">
+                            <div class="column-header">
+                                <span class="column-header__text">Rol</span>
+                                <div class="column-header__icons">
+                                    <span class="column-header__icons-icon fa fa-angle-up"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-down"></span>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let role of _managementService.rolesInfo | filterRolesPipe : searchQuery : selectedFilter : ascendent">
+                        <td>
+                            <span class="clickable" (click)="openEditModal(role)">
+                                {{role.roleId}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{role.userType}}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<modal [configModal]="configModal" [data]="selectedRole"></modal>

@@ -1,0 +1,11 @@
+<div class="popup" *ngFor="let popup of popupService.getPopups()" class="popup"
+  [ngClass]="{'auto-close': popup.autoClose, 'fade-out': popup.autoClose, 'general':popup.type == configPopup.GENERAL, 'success':popup.type == configPopup.SUCCESS, 'error':popup.type == configPopup.ERROR, 'warning':popup.type == configPopup.WARNING, 'info':popup.type == configPopup.INFO}"
+  [style.animation-delay]="popup.autoClose ? popup.seconds + 's' : '0s'">
+  <div class="popup__content">
+    <span class="popup__content-title">{{ popup.title }}</span>
+    <span class="popup__content-text"> {{ popup.content }}</span>
+    <div class="icon-container" (click)="closePopup(popup)">
+      <i class="icon icon-cross"></i>
+    </div>
+  </div>
+</div>

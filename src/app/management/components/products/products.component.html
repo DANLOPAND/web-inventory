@@ -1,1 +1,116 @@
-<p>products works!</p>
+<div class="container">
+    <div class="content">
+        <div class="actions">
+            <span>{{_managementService.productsInfo.length}} productos</span>
+            <search-bar class="searcher" (searchQueryEmit)="onSearchQuery($event)"
+                placeholder="Buscar empleado..."></search-bar>
+            <button class="btn btn__white" (click)="openAddModal()">Agregar</button>
+
+        </div>
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th (click)="changeFilter(0)"
+                            [ngClass]="{'upward': ascendent && selectedFilter === 0, 'downward': !ascendent && selectedFilter === 0}">
+                            <div class="column-header">
+                                <span class="column-header__text">Id</span>
+                                <div class="column-header__icons">
+                                    <span class="column-header__icons-icon fa fa-angle-up"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-down"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="changeFilter(1)"
+                            [ngClass]="{'upward': ascendent && selectedFilter === 1, 'downward': !ascendent && selectedFilter === 1}">
+                            <div class="column-header">
+                                <span class="column-header__text">Nombre</span>
+                                <div class="column-header__icons">
+                                    <span class="column-header__icons-icon fa fa-angle-up"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-down"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="changeFilter(2)"
+                            [ngClass]="{'upward': ascendent && selectedFilter === 2, 'downward': !ascendent && selectedFilter === 2}">
+                            <div class="column-header">
+                                <span class="column-header__text">Rol</span>
+                                <div class="column-header__icons">
+                                    <span class="column-header__icons-icon fa fa-angle-up"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-down"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="changeFilter(3)"
+                            [ngClass]="{'upward': ascendent && selectedFilter === 3, 'downward': !ascendent && selectedFilter === 3}">
+                            <div class="column-header">
+                                <span class="column-header__text">Precio</span>
+                                <div class="column-header__icons">
+                                    <span class="column-header__icons-icon fa fa-angle-up"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-down"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="changeFilter(4)"
+                            [ngClass]="{'upward': ascendent && selectedFilter === 4, 'downward': !ascendent && selectedFilter === 4}">
+                            <div class="column-header">
+                                <span class="column-header__text">Comp. Unidad</span>
+                                <div class="column-header__icons">
+                                    <span class="column-header__icons-icon fa fa-angle-up"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-down"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="changeFilter(5)"
+                            [ngClass]="{'upward': ascendent && selectedFilter === 5, 'downward': !ascendent && selectedFilter === 5}">
+                            <div class="column-header">
+                                <span class="column-header__text">Comp. Unidad</span>
+                                <div class="column-header__icons">
+                                    <span class="column-header__icons-icon fa fa-angle-up"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-down"></span>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let product of _managementService.productsInfo | filterProductsPipe : searchQuery : selectedFilter : ascendent">
+                        <td>
+                            <span class="clickable" (click)="openEditModal(product)">
+                                {{product.productId}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{product.productName}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{product.productRole?.userType}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{product.price}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{(product.unitCompensation || 0) * 100}}%
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{(product.packageCompensation || 0) * 100}}%
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<modal [configModal]="configModal" [data]="selectedProduct"></modal>

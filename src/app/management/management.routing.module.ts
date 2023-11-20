@@ -1,24 +1,29 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ManagementComponent } from './management.component';
-import { ManagementGuard } from './management.guard';
+import { AdminGuard, ManagementGuard, ProductionGuard } from './management.guard';
+import { EmployeesComponent } from './components/employees/employees.component';
+import { RolesComponent } from './components/roles/roles.component';
+import { ProductionComponent } from './components/production/production.component';
+import { ProductsComponent } from './components/products/products.component';
 
 const routes: Routes = [
   {
-    path: 'management', component: ManagementComponent, canActivate: [ManagementGuard],
+    path: 'management',
+    component: ManagementComponent,
+    canActivate: [ManagementGuard],
     children: [
-      { path: 'roles', loadChildren: ()=> import('./components/roles/roles.module').then(m => m.RolesModule)},
-      { path: 'employees', loadChildren: ()=> import('./components/employees/employees.module').then(m => m.EmployeesModule)},
-      { path: 'products', loadChildren: ()=> import('./components/products/products.module').then(m => m.ProductsModule)},
-      { path: 'production', loadChildren: ()=> import('./components/production/production.module').then(m => m.ProductionModule)},
+      { path: 'roles', component: RolesComponent, canActivate: [AdminGuard] },
+      { path: 'employees', component: EmployeesComponent, canActivate: [AdminGuard] },
+      { path: 'products', component: ProductsComponent, canActivate: [AdminGuard] },
+      { path: 'production', component: ProductionComponent, canActivate: [ProductionGuard] },
       { path: '', redirectTo: 'employees', pathMatch: 'full' },
     ],
   },
 ];
 
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ManagementRoutingModule { }
+export class ManagementRoutingModule {}

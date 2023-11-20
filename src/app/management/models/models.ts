@@ -12,18 +12,21 @@ export interface role {
 }
 
 export interface product {
-    productID: number;
+    productId?: number;
     productName: string;
-    Price: number;
-    unitCompensation: Float32Array
-    packageCompensation: Float32Array
-    productRoleID: number;
+    price?: number;
+    unitCompensation?: number
+    packageCompensation: number
+    productRole?: role;
 }
 
 export interface production {
-    productionID: number;
-    employeeID: string;
-    productID: number;
+    product?: product;
+    employee?: employee;
+    productionId: string;
     productionDate: Date;
-    ammount: number;
+    amount: number;
+    compensation?: number;
+    total?: number;
+    percentage?: number;
 }

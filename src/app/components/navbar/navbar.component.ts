@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
+import { ManagementService } from 'src/app/management/management.service';
 
 @Component({
   selector: 'navbar',
@@ -8,12 +10,15 @@ import { AppService } from 'src/app/app.service';
 })
 export class NavbarComponent {
   constructor(
-    public _appService: AppService
+    public _appService: AppService,
+    public _router: Router,
+    public _managementService: ManagementService
   ) {}
 
   logOut() {
     localStorage.removeItem('token');
     this._appService.logout();
-    window.location.reload();
+    this._managementService.clearData();
+    this._router.navigate(['/login']);
   }
 }

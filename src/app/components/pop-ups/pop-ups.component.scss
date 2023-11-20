@@ -1,0 +1,117 @@
+@import "../../styles/colors";
+
+:host {
+  position: fixed;
+  /* width: 100%; */
+  /* height: 100%; */
+  bottom: 0;
+  z-index: 10;
+}
+
+.popup {
+  background-color: #fff;
+  border-radius: 6px;
+  margin: 10px;
+  padding: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    margin: -2px; /* !importanté */
+    margin-left: -2px;
+    border-radius: 6px;
+  }
+
+  &.general {
+    &:before {
+      background: linear-gradient(to right, $light-blue, white, white, white);
+    }
+  }
+
+  &.success {
+    &:before {
+      background: linear-gradient(to right, $light-green, white, white, white);
+    }
+  }
+
+  &.error {
+    &:before {
+      background: linear-gradient(to right, $light-red, white, white, white);
+    }
+  }
+
+  &.warning {
+    &:before {
+      background: linear-gradient(to right, $light-yellow, white, white, white);
+    }
+  }
+
+  &.info {
+    &:before {
+      background: linear-gradient(to right, $light-blue, white, white, white);
+    }
+  }
+
+  &__content {
+    display: flex;
+    gap: 0.5rem;
+
+    &-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: $text-color;
+    }
+    &-text {
+      font-weight: 600;
+      color: $text-color;
+      font-size: 0.9rem;
+    }
+
+    .icon-container {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      .icon {
+        font-size: 0.8rem;
+        color: $border-color;
+      }
+
+      &:hover {
+        .icon {
+          color: $text-color;
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.auto-close {
+  animation-duration: 1s;
+  animation-timing-function: ease;
+  animation-play-state: running; /* Inicialmente, la animación está en ejecución */
+}
+
+.auto-close:hover {
+  animation-play-state: running; /* Reanudar la animación cuando haces hover */
+}

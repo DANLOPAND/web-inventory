@@ -1,33 +1,44 @@
-@import "colors";
+@import "../../styles/colors";
+
+:host {
+  width: 100%;
+}
+
+:host(.edited) {
+  .drop-down-container {
+    .combo-box {
+      border: 1px solid orange;
+    }
+  }
+}
 
 .drop-down-container {
   text-align: initial;
   color: $text-color;
-  font-weight: 600;
+  // font-weight: 600;
   position: relative;
 
-  .combo-box,
-  .search-box {
+  .combo-box {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: stretch;
     border-radius: 4px;
     border: 1px solid $border-color;
-    transition: border-color 0.2s ease;
+    transition: all 0.2s ease;
     background-color: $blue-bg;
     color: $text-color;
 
     &__input {
       height: 30px;
       border: none;
-      margin: 4px 4px 4px 10px;
+      margin: 4px 0px 4px 10px;
       font-size: inherit;
-      font-weight: 600;
+      // font-weight: 600;
       color: $text-color;
       transition: width 0.2s ease;
       background-color: transparent;
       outline: none;
-      width: calc(100% - 14px);
+      width: calc(100% - 10px);
     }
 
     .icons-container {
@@ -58,12 +69,6 @@
     }
   }
 
-  .search-box {
-    &:focus-within {
-      border-color: $blue;
-    }
-  }
-
   .options-container {
     display: none;
     flex-direction: column;
@@ -77,20 +82,49 @@
     border-radius: 0.5rem;
     box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
-    max-width: 500px;
+    max-height: 250px;
 
     .option {
       display: inline-flex;
       padding: 0.5rem 0.5rem;
       cursor: pointer;
+      font-weight: initial;
 
       &:hover {
         background-color: $gray-bg;
+      }
+
+      &.isSelected {
+        background-color: $light-blue;
+        color: white;
+
+        &:hover {
+          background-color: $blue;
+          color: white;
+        } 
+      }
+
+      &.focused {
+        background-color: $light-blue;
+        color: white;
+
+        &:hover {
+          background-color: $blue;
+          color: white;
+        }
       }
     }
   }
 
   .open {
     display: flex;
+  }
+
+  &.disabled {
+    pointer-events: none;
+
+    .combo-box {
+      background-color: $disabled-bg;
+    }
   }
 }

@@ -1,0 +1,15 @@
+<div class="drop-down-container" (clickOutsideDdown)="showItems = false">
+    <div class="field-container left">
+        <input class="field-container__input" type="text" (keydown)="onKeyDown($event)" [placeholder]="placeholder" [(ngModel)]="searchQuery" (ngModelChange)="onSearchQuery($event)"
+        (click)="showItems = true">
+        <span class="btn btn__clean icon-container" (click)="onButtonClick($event)">
+            <i *ngIf="!loadingSearch" class="icon fa fa-search"></i>
+            <i *ngIf="loadingSearch" class="icon loader"></i>
+        </span>
+    </div>
+    <ul class="options-container" [ngClass]="{'open': showItems && items.length > 0}">
+        <li class="option" *ngFor="let item of items" (click)="onItemSelected(item)">{{ displayProperty ? item[displayProperty] : item }}</li>
+    </ul>
+</div>
+
+

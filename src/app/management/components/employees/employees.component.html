@@ -1,7 +1,10 @@
 <div class="container">
     <div class="content">
         <div class="actions">
-            <span>{{employees.length}} empleados</span>
+            <span>{{_managementService.employeesInfo.length}} empleados</span>
+            <search-bar class="searcher" (searchQueryEmit)="onSearchQuery($event)"
+                placeholder="Buscar empleado..."></search-bar>
+            <button class="btn btn__white" (click)="openAddModal()">Agregar</button>
         </div>
         <div class="table-container">
             <table class="table">
@@ -12,8 +15,8 @@
                             <div class="column-header">
                                 <span class="column-header__text">CC</span>
                                 <div class="column-header__icons">
-                                    <span class="column-header__icons-icon fa fa-arrow-up"></span>
-                                    <span class="column-header__icons-icon fa fa-arrow-down"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-up"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-down"></span>
                                 </div>
                             </div>
                         </th>
@@ -22,8 +25,8 @@
                             <div class="column-header">
                                 <span class="column-header__text">Nombre</span>
                                 <div class="column-header__icons">
-                                    <span class="column-header__icons-icon fa fa-arrow-up"></span>
-                                    <span class="column-header__icons-icon fa fa-arrow-down"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-up"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-down"></span>
                                 </div>
                             </div>
                         </th>
@@ -32,17 +35,20 @@
                             <div class="column-header">
                                 <span class="column-header__text">Rol</span>
                                 <div class="column-header__icons">
-                                    <span class="column-header__icons-icon fa fa-arrow-up"></span>
-                                    <span class="column-header__icons-icon fa fa-arrow-down"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-up"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-down"></span>
                                 </div>
                             </div>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let employee of employees">
+                    <tr
+                        *ngFor="let employee of _managementService.employeesInfo | filterEmployeesPipe : searchQuery : selectedFilter : ascendent">
                         <td>
                             <span>
+                            </span>
+                            <span class="clickable" (click)="openEditModal(employee)">
                                 {{employee.cc}}
                             </span>
                         </td>
@@ -62,3 +68,5 @@
         </div>
     </div>
 </div>
+
+<modal [configModal]="configModal" [data]="selectedEmployee"></modal>

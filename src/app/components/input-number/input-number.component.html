@@ -1,0 +1,11 @@
+<div class="quantity" #quantityDiv>
+  <input type="number" [(ngModel)]="value" (ngModelChange)="onInputChange()" (blur)="onBlur()" [placeholder]="placeholder" />
+  <div class="quantity-nav">
+    <div class="quantity-button quantity-up" (click)="incrementValue()">
+      <i class="fa fa-chevron-up"></i>
+    </div>
+    <div class="quantity-button quantity-down" (click)="decrementValue()">
+      <i class="fa fa-chevron-down"></i>
+    </div>
+  </div>
+</div>

@@ -9,17 +9,23 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ManagementGuard } from './management/management.guard';
 import { LoginGuard } from './login/login.guard';
+import { PopUpsComponent } from './components/pop-ups/pop-ups.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
+    PopUpsComponent,
   ],
   imports: [
     BrowserModule,
     NavbarModule,
     AppRoutingModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    CommonModule,
+    FormsModule
   ],
   providers: [AppService, ManagementGuard, LoginGuard],
   bootstrap: [AppComponent]

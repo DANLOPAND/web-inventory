@@ -1,4 +1,4 @@
-@import "./colors.scss";
+@import "./colors";
 
 // buttons
 .btn {
@@ -187,7 +187,6 @@
       &:hover {
         cursor: pointer;
         background-color: $hover-shadow;
-
       }
 
       &.disabled {
@@ -216,7 +215,7 @@
           flex-direction: column;
 
           &-icon {
-            font-size: small;
+            font-size: medium;
             font-weight: 600;
             margin: auto;
           }
@@ -235,13 +234,13 @@
     }
 
     .upward {
-      .fa-arrow-down {
+      .fa-angle-down {
         display: none;
       }
     }
 
     .downward {
-      .fa-arrow-up {
+      .fa-angle-up {
         display: none;
       }
     }
@@ -426,7 +425,6 @@
         overflow: auto;
 
         .text {
-          font-weight: 600;
           color: $text-color;
           text-align: left;
         }
@@ -453,6 +451,15 @@
       &.fit-height {
         max-height: fit-content;
         height: fit-content;
+
+        .boddy {
+          overflow: visible;
+        }
+      }
+
+      &.fit-width {
+        max-width: fit-content;
+        width: fit-content;
       }
 
       &.min-width600 {
@@ -560,6 +567,16 @@
 @mixin textarea {
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .input {
   min-height: 40px;
   border-radius: 4px;
@@ -616,7 +633,7 @@
     border: none;
     width: 100%;
     font-size: inherit;
-    margin: 4px 4px 4px 10px;
+    margin: 3px 4px 3px 10px;
     color: $text-color;
     max-width: 100%;
     transition: width 0.2s ease;
@@ -629,10 +646,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
+    width: 38px;
 
     .icon {
-      font-weight: bolder;
       color: $text-color;
       font-size: large;
     }
@@ -1241,5 +1257,15 @@
       opacity: 0;
       transform: scale(0.8);
     }
+  }
+}
+
+.clickable {
+  cursor: pointer;
+  text-decoration: underline;
+  color: $blue;
+
+  &:hover {
+    color: $dark-blue-font;
   }
 }

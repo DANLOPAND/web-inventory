@@ -1,0 +1,335 @@
+<div #modalContainer_ id="modal-container" [ngClass]="{'open': showModal, 'out': hiddenModal}">
+    <div class="modal-background" (click)="(preventCloseModal) ? null : cancelModal()">
+        <div class="modal" [ngClass]="{'fit-height': config == 0 || config == 2 || config == 3 || config == 4 || config == 5 || config == 6 || config == 7,
+         'fit-width': config == 0 || config == 4 || config == 5 || config == 6 || config == 7
+    }" (mouseenter)="preventCloseModal=true" (mouseleave)="preventCloseModal=false">
+            <ng-container *ngIf=" config == 0">
+                <div class="head">
+                    <div class="head__tittle">
+                        <h3>{{data?.amount >= 12 ? 'Paquete' : 'Productos'}}</h3>
+                        <button class="btn" (click)="cancelModal()">
+                            <div class="btn__float fa fa-close"></div>
+                        </button>
+                    </div>
+                </div>
+                <form class="boddy">
+                    <div class="info-list">
+                        <span>Despachado por: <b>{{data?.employee?.name + ' ' + (data?.employee?.lastName ||
+                                '')}}</b></span>
+                        <span>Fecha: <b>{{data?.productionDate | date: 'dd/MM/yyyy'}}</b></span>
+                        <span>Productos: <b>{{data?.product?.productName}}</b></span>
+                        <span>Precio unitario: <b>{{data?.product?.price}}</b></span>
+                        <span>Cantidad: <b>{{data?.amount}}</b></span>
+                        <span>Total: <b>{{data?.total}}</b></span>
+                        <span>Porcentaje: <b>{{data?.percentage * 100}}%</b></span>
+                        <span>Compensación: <b>{{data?.compensation}}</b></span>
+                    </div>
+                    <button class="btn btn__blue small" *ngIf="data?.amount >= 12" (click)="generatePDF()">Generar
+                        etiqueta</button>
+                </form>
+            </ng-container>
+            <ng-container *ngIf=" config == 1">
+                <div class="head">
+                    <div class="head__tittle">
+                        <h3>Crear Producción</h3>
+                    </div>
+                </div>
+                <form class="boddy">
+                    <div class="container">
+                        <span class="label width-100">Empleado
+                            <combobox
+                                [items]="_appService.isAdmin ? _managementService.employeesInfo : [this._appService.user_data.name+' '+this._appService.user_data.lastName]"
+                                [displayProperty]="_appService.isAdmin ? 'name' : undefined" [startItem]=""
+                                [placeholder]="'Seleccionar empleado'" (itemSelected)="onEmployeeSelected($event)"
+                                [disabled]="!_appService.isAdmin"
+                                [startItem]="!_appService.isAdmin ? this._appService.user_data.name+' '+this._appService.user_data.lastName : undefined">
+                            </combobox>
+                        </span>
+                        <span class="label width-100">Producto
+                            <div>
+                                <combobox
+                                    [items]="_managementService.productsInfo | filterProductsByRolePipe : extraData.employee?.role.roleId"
+                                    [displayProperty]="'productName'" [placeholder]="'Seleccionar Producto'"
+                                    (itemSelected)="onProductSelected($event)">
+                                </combobox>
+                            </div>
+                        </span>
+                        <div class="rows">
+                            <span class="label">
+                                Precio
+                                <input class="input input-small" type="text"
+                                    value="{{(extraData?.product?.price ? extraData?.product?.price : 0)}}" readonly>
+                            </span>
+                            <span class="label">
+                                Cantidad
+                                <input-number class="input-small" [min]="1" [max]="25"
+                                    (valueChanged)="onAmountChanged($event)"
+                                    [placeholder]="'Cantidad de producto'"></input-number>
+                            </span>
+                            <span class="label">
+                                Subtotal
+                                <input class="input input-small" [disabled]="true" type="text"
+                                    [value]="(data?.amount ? data?.amount : 0) * extraData?.product?.price" readonly>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+                <div class="footer">
+                    <div class="divider"></div>
+                    <div class="footer__buttons">
+                        <button class="btn btn__white small" (click)="cancelModal()">Cancelar</button>
+                        <button class="btn btn__blue small" *ngIf="loading">
+                            <div class="loader"></div>
+                        </button>
+                        <button class="btn btn__blue small" *ngIf="!loading" (click)="createProduction()">
+                            <span>Crear</span>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf=" config == 2">
+                <div class="head">
+                    <div class="head__tittle">
+                        <h3>Crear Rol</h3>
+                    </div>
+                </div>
+                <form class="boddy">
+                    <span class="label">
+                        Nombre
+                        <input class="input" type="text" [(ngModel)]="data.userType" name="name"
+                            placeholder="Nombre de la lista" required>
+                    </span>
+                </form>
+                <div class="footer">
+                    <div class="divider"></div>
+                    <div class="footer__buttons">
+                        <button class="btn btn__white small" (click)="cancelModal()">Cancelar</button>
+                        <button class="btn btn__blue small" *ngIf="loading">
+                            <div class="loader"></div>
+                        </button>
+                        <button class="btn btn__blue small" *ngIf="!loading" (click)="createRole()">
+                            <span>Crear</span>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf=" config == 3">
+                <div class="head">
+                    <div class="head__tittle">
+                        <h3>Editar Rol</h3>
+                    </div>
+                </div>
+                <form class="boddy">
+                    <span class="label">
+                        Nombre
+                        <input class="input" type="text" [(ngModel)]="extraData.userType" name="name"
+                            placeholder="Nombre de la lista" required>
+                    </span>
+                </form>
+                <div class="footer">
+                    <div class="divider"></div>
+                    <div class="footer__buttons">
+                        <button class="btn btn__white small" (click)="cancelModal()">Cancelar</button>
+                        <button class="btn btn__blue small" *ngIf="loading">
+                            <div class="loader"></div>
+                        </button>
+                        <button class="btn btn__blue small" *ngIf="!loading" (click)="editRole()">
+                            <span>Editar</span>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf=" config == 4">
+                <div class="head">
+                    <div class="head__tittle">
+                        <h3>Crear producto</h3>
+                    </div>
+                </div>
+                <form class="boddy">
+                    <div class="rows">
+                        <span class="label">
+                            Nombre
+                            <input class="input" type="text" [(ngModel)]="data.productName" name="name"
+                                placeholder="Nombre del producto" required>
+                        </span>
+                        <span class="label">
+                            Rol
+                            <combobox [items]="_managementService.rolesInfo" [displayProperty]="'userType'"
+                                [placeholder]="'Seleccionar Rol'" (itemSelected)="onRoleSelected($event)">
+                            </combobox>
+                        </span>
+                    </div>
+                    <div class="rows">
+                        <span class="label">
+                            Precio
+                            <input class="input" type="number" [(ngModel)]="data.price" name="name"
+                                placeholder="Precio del producto" required>
+                        </span>
+                        <span class="label">
+                            Comp. por unidad
+                            <input-number [min]="1" [max]="25" (valueChanged)="onCompensationChanged($event, true)"
+                                [placeholder]="'1%'"></input-number>
+                        </span>
+                        <span class="label">
+                            Comp. por paquete
+                            <input-number [min]="1" [max]="25" (valueChanged)="onCompensationChanged($event,false)"
+                                [placeholder]="'1%'"></input-number>
+                        </span>
+                    </div>
+                </form>
+                <div class="footer">
+                    <div class="divider"></div>
+                    <div class="footer__buttons">
+                        <button class="btn btn__white small" (click)="cancelModal()">Cancelar</button>
+                        <button class="btn btn__blue small" *ngIf="loading">
+                            <div class="loader"></div>
+                        </button>
+                        <button class="btn btn__blue small" *ngIf="!loading" (click)="createProduct()">
+                            <span>Crear</span>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf=" config == 5">
+                <div class="head">
+                    <div class="head__tittle">
+                        <h3>Editar Producto</h3>
+                    </div>
+                </div>
+                <form class="boddy">
+                    <div class="rows">
+                        <span class="label">
+                            Nombre
+                            <input class="input" type="text" [(ngModel)]="extraData.productName" name="name"
+                                placeholder="Nombre del producto" required>
+                        </span>
+                        <span class="label">
+                            Rol
+                            <combobox [items]="_managementService.rolesInfo" [displayProperty]="'userType'"
+                                [startItem]="extraData.productRole" [placeholder]="'Seleccionar Rol'"
+                                (itemSelected)="onRoleSelected($event)">
+                            </combobox>
+                        </span>
+                    </div>
+                    <div class="rows">
+                        <span class="label">
+                            Precio
+                            <input class="input" type="number" [(ngModel)]="extraData.price" name="price"
+                                placeholder="Precio del producto" required>
+                        </span>
+                        <span class="label">
+                            Comp. por unidad
+                            <input-number [min]="1" [max]="25" (valueChanged)="onCompensationChanged($event, true)"
+                                [value]="extraData.unitCompensation"
+                                [placeholder]="'1%'"></input-number>
+                        </span>
+                        <span class="label">
+                            Comp. por paquete
+                            <input-number [min]="1" [max]="25" (valueChanged)="onCompensationChanged($event,false)"
+                                [value]="extraData.packageCompensation"
+                                [placeholder]="'1%'"></input-number>
+                        </span>
+                    </div>
+                </form>
+                <div class="footer">
+                    <div class="divider"></div>
+                    <div class="footer__buttons">
+                        <button class="btn btn__white small" (click)="cancelModal()">Cancelar</button>
+                        <button class="btn btn__blue small" *ngIf="loading">
+                            <div class="loader"></div>
+                        </button>
+                        <button class="btn btn__blue small" *ngIf="!loading" (click)="editProduct()">
+                            <span>Editar</span>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf=" config == 6">
+                <div class="head">
+                    <div class="head__tittle">
+                        <h3>Crear Empleado</h3>
+                    </div>
+                </div>
+                <form class="boddy">
+                    <div class="rows">
+                        <span class="label">
+                            Cc
+                            <input class="input" type="text" [(ngModel)]="data.cc" name="cc"
+                                placeholder="Cedula" required>
+                        </span>
+                        <span class="label">
+                            Rol
+                            <combobox [items]="_managementService.rolesInfo" [displayProperty]="'userType'"
+                                [placeholder]="'Seleccionar Rol'" (itemSelected)="onRoleSelected($event)">
+                            </combobox>
+                        </span>
+                    </div>
+                    <div class="rows">
+                        <span class="label">
+                            Nombre
+                            <input class="input" type="text" [(ngModel)]="data.name" name="name"
+                                placeholder="Nombre del empleado" required>
+                        </span>
+                        <span class="label">
+                            Apellido
+                            <input class="input" type="text" [(ngModel)]="data.lastName" name="lastName"
+                                placeholder="Apellido del empleado" required>
+                        </span>
+                    </div>
+                </form>
+                <div class="footer">
+                    <div class="divider"></div>
+                    <div class="footer__buttons">
+                        <button class="btn btn__white small" (click)="cancelModal()">Cancelar</button>
+                        <button class="btn btn__blue small" *ngIf="loading">
+                            <div class="loader"></div>
+                        </button>
+                        <button class="btn btn__blue small" *ngIf="!loading" (click)="createEmployee()">
+                            <span>Crear</span>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf=" config == 7">
+                <div class="head">
+                    <div class="head__tittle">
+                        <h3>Editar Empleado</h3>
+                    </div>
+                </div>
+                <form class="boddy">
+                    <div class="rows">
+                        <span class="label">
+                            Nombre
+                            <input class="input" type="text" [(ngModel)]="extraData.name" name="name"
+                                placeholder="Nombre del empleado" required>
+                        </span>
+                        <span class="label">
+                            Apellido
+                            <input class="input" type="text" [(ngModel)]="extraData.lastName" name="lastName"
+                                placeholder="Apellido del empleado" required>
+                        </span>
+                        <span class="label">
+                            Rol
+                            <combobox [items]="_managementService.rolesInfo" [displayProperty]="'userType'"
+                                [startItem]="extraData.role" [placeholder]="'Seleccionar Rol'"
+                                (itemSelected)="onRoleSelected($event)">
+                            </combobox>
+                        </span>
+                    </div>
+                </form>
+                <div class="footer">
+                    <div class="divider"></div>
+                    <div class="footer__buttons">
+                        <button class="btn btn__white small" (click)="cancelModal()">Cancelar</button>
+                        <button class="btn btn__blue small" *ngIf="loading">
+                            <div class="loader"></div>
+                        </button>
+                        <button class="btn btn__blue small" *ngIf="!loading" (click)="editEmployee()">
+                            <span>Editar</span>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

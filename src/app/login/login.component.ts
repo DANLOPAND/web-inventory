@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppService } from '../app.service';
 import { Router } from '@angular/router';
+import { configPopup } from '../components/pop-ups/pop-ups.model';
+import { PopupService } from '../components/pop-ups/pop-ups.service';
 
 @Component({
   selector: 'app-login',
@@ -11,11 +13,13 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   public registrationForm: FormGroup;
   public loading: boolean = false;
+  public configPopup = configPopup;
 
   constructor(
     private formBuilder: FormBuilder,
     private _appService: AppService,
-    private _router: Router
+    private _router: Router,
+    private _popupService: PopupService
   ) {
     this.registrationForm = this.formBuilder.group({
       cc: ['', Validators.required],
@@ -35,11 +39,19 @@ export class LoginComponent implements OnInit {
       this._appService
         .login(this.registrationForm.value)
         .subscribe((response) => {
-          localStorage.setItem('token', response.token);
-          this._appService.token = response.token;
+          const token = response.token;
+          if (token !== null && token?.length > 0) {
+            localStorage.setItem('token', response.token);
+            this._appService.token = response.token;
+            this._router.navigate(['/management']);
+          }
           this.loading = false;
-          this._appService.loadNavbar = true;
-          this._router.navigate(['/management']);
+          this._popupService.addPopup({
+            content: response.message,
+            seconds: 5,
+            autoClose: true,
+            type: this.configPopup.ERROR,
+          });
         });
     }
   }

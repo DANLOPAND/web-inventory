@@ -1,6 +1,6 @@
 <header class="header">
     <div class="options">
-        <a class="option" routerLink="management/employees" routerLinkActive="active-link">
+        <a class="option" *ngIf="_appService.isAdmin" routerLink="management/employees" routerLinkActive="active-link">
             <div class="button">
                 <span class="button__lable">Empleados</span>
                 <span class="fa fa-location-arrow button__icon"></span>
@@ -8,7 +8,7 @@
             </div>
         </a>
 
-        <a class="option" routerLink="management/roles" routerLinkActive="active-link">
+        <a class="option" *ngIf="_appService.isAdmin" routerLink="management/roles" routerLinkActive="active-link">
             <div class="button">
                 <span class="button__lable">Roles</span>
                 <span class="fa fa-location-arrow button__icon"></span>
@@ -16,7 +16,7 @@
             </div>
         </a>
 
-        <a class="option" routerLink="management/products" routerLinkActive="active-link">
+        <a class="option" *ngIf="_appService.isAdmin" routerLink="management/products" routerLinkActive="active-link">
             <div class="button">
                 <span class="button__lable">Productos</span>
                 <span class="fa fa-location-arrow button__icon"></span>

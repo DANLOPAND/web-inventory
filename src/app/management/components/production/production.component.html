@@ -1,1 +1,115 @@
-<p>production works!</p>
+<div class="container">
+    <div class="content">
+        <div class="actions">
+            <span>{{_managementService.productionInfo.length}} empleados</span>
+            <search-bar class="searcher" (searchQueryEmit)="onSearchQuery($event)"
+                placeholder="Buscar por producción..."></search-bar>
+            <button class="btn btn__white" (click)="openAddModal()">Agregar</button>
+        </div>
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th (click)="changeFilter(0)"
+                            [ngClass]="{'upward': ascendent && selectedFilter === 0, 'downward': !ascendent && selectedFilter === 0}">
+                            <div class="column-header">
+                                <span class="column-header__text">Id</span>
+                                <div class="column-header__icons">
+                                    <span class="column-header__icons-icon fa fa-angle-up"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-down"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="changeFilter(1)"
+                            [ngClass]="{'upward': ascendent && selectedFilter === 1, 'downward': !ascendent && selectedFilter === 1}">
+                            <div class="column-header">
+                                <span class="column-header__text">Empleado</span>
+                                <div class="column-header__icons">
+                                    <span class="column-header__icons-icon fa fa-angle-up"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-down"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="changeFilter(2)"
+                            [ngClass]="{'upward': ascendent && selectedFilter === 2, 'downward': !ascendent && selectedFilter === 2}">
+                            <div class="column-header">
+                                <span class="column-header__text">producto</span>
+                                <div class="column-header__icons">
+                                    <span class="column-header__icons-icon fa fa-angle-up"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-down"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="changeFilter(3)"
+                            [ngClass]="{'upward': ascendent && selectedFilter === 3, 'downward': !ascendent && selectedFilter === 3}">
+                            <div class="column-header">
+                                <span class="column-header__text">F. de producción</span>
+                                <div class="column-header__icons">
+                                    <span class="column-header__icons-icon fa fa-angle-up"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-down"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="changeFilter(4)"
+                            [ngClass]="{'upward': ascendent && selectedFilter === 4, 'downward': !ascendent && selectedFilter === 4}">
+                            <div class="column-header">
+                                <span class="column-header__text">Cantidad</span>
+                                <div class="column-header__icons">
+                                    <span class="column-header__icons-icon fa fa-angle-up"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-down"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th (click)="changeFilter(5)"
+                            [ngClass]="{'upward': ascendent && selectedFilter === 5, 'downward': !ascendent && selectedFilter === 5}">
+                            <div class="column-header">
+                                <span class="column-header__text">Total</span>
+                                <div class="column-header__icons">
+                                    <span class="column-header__icons-icon fa fa-angle-up"></span>
+                                    <span class="column-header__icons-icon fa fa-angle-down"></span>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let production of _managementService.productionInfo | filterProductionsPipe : searchQuery : selectedFilter : ascendent">
+                        <td>
+                            <span class="clickable" (click)="selectProduction(production)">
+                                {{production.productionId}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{production.employee?.name + ' ' + (production.employee?.lastName || '')}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{production.product?.productName}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{production.productionDate | date: 'dd/MM/yyyy'}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{production.amount}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{production.total}}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<modal [configModal]="configModal" [data]="selectedProduction"></modal>
