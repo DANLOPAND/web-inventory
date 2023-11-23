@@ -398,9 +398,7 @@ export class FilterProductsPipe implements PipeTransform {
 })
 export class FilterProductsByRolePipe implements PipeTransform {
   transform(data: product[], role: string): product[] {
-    console.log(data);
     return data.filter((product: product) => {
-      console.log(product.productRole?.roleId.toString(), role);
       return product.productRole?.roleId.toString() == role;
     });
   }

@@ -44,14 +44,16 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('token', response.token);
             this._appService.token = response.token;
             this._router.navigate(['/management']);
+          } else {
+            this._popupService.addPopup({
+              content: response.message + '!',
+              seconds: 5,
+              autoClose: true,
+              type: this.configPopup.ERROR,
+            });
           }
           this.loading = false;
-          this._popupService.addPopup({
-            content: response.message,
-            seconds: 5,
-            autoClose: true,
-            type: this.configPopup.ERROR,
-          });
+
         });
     }
   }

@@ -49,7 +49,7 @@
                             <div>
                                 <combobox
                                     [items]="_managementService.productsInfo | filterProductsByRolePipe : extraData.employee?.role.roleId"
-                                    [displayProperty]="'productName'" [placeholder]="'Seleccionar Producto'"
+                                    [displayProperty]="'productName'" [placeholder]="'Seleccionar Producto'" [startItem]="extraData.product"
                                     (itemSelected)="onProductSelected($event)">
                                 </combobox>
                             </div>
@@ -57,7 +57,7 @@
                         <div class="rows">
                             <span class="label">
                                 Precio
-                                <input class="input input-small" type="text"
+                                <input class="input input-small disabled" type="text" [disabled]="true"
                                     value="{{(extraData?.product?.price ? extraData?.product?.price : 0)}}" readonly>
                             </span>
                             <span class="label">
@@ -68,7 +68,7 @@
                             </span>
                             <span class="label">
                                 Subtotal
-                                <input class="input input-small" [disabled]="true" type="text"
+                                <input class="input input-small disabled" [disabled]="true" type="text"
                                     [value]="(data?.amount ? data?.amount : 0) * extraData?.product?.price" readonly>
                             </span>
                         </div>

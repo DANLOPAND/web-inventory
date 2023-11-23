@@ -11,13 +11,13 @@ import {
   forwardRef,
   AfterContentInit,
   ViewChild,
-} from "@angular/core";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-  selector: "combobox",
-  templateUrl: "combobox.component.html",
-  styleUrls: ["combobox.component.scss", './../../styles/font-awesome.scss'],
+  selector: 'combobox',
+  templateUrl: 'combobox.component.html',
+  styleUrls: ['combobox.component.scss', './../../styles/font-awesome.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -29,18 +29,18 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 export class ComboboxComponent
   implements ControlValueAccessor, AfterContentInit, OnChanges
 {
-  @ViewChild("comboBox") comboBox: ElementRef | undefined;
+  @ViewChild('comboBox') comboBox: ElementRef | undefined;
 
   @Input() items: any[] = [];
   @Input() displayProperty: string | undefined;
   @Input() startItem: any = null;
   @Input() disabled: boolean = false;
-  @Input() placeholder: any = "Seleccione una opción";
-  @Input() id: any = "item";
+  @Input() placeholder: any = 'Seleccione una opción';
+  @Input() id: any = 'item';
   @Output() itemSelected: EventEmitter<any> = new EventEmitter<any>();
   public selectedItem: any;
   public showOptions: boolean = false;
-  public userInput: string = "";
+  public userInput: string = '';
   public selectedFocusItemIndex: number | undefined;
   public matchingIndex: number | undefined;
   public timerId: any;
@@ -53,9 +53,22 @@ export class ComboboxComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-   //check if startItem has changed
+    //check if startItem has changed
     if (changes['startItem'] && !changes['startItem'].firstChange) {
       this.selectedItem = changes['startItem'].currentValue;
+    }
+
+    if (
+      changes['startItem'] &&
+      !changes['startItem'].currentValue &&
+      changes['startItem'].previousValue
+    ) {
+      this.selectedItem = this.displayProperty
+        ? {
+            id: 'unselected',
+            [this.displayProperty]: this.placeholder,
+          }
+        : this.placeholder;
     }
   }
 
@@ -73,11 +86,11 @@ export class ComboboxComponent
     if (isDisabled) {
       this.renderer.setAttribute(
         this.elementRef.nativeElement,
-        "disabled",
-        "true"
+        'disabled',
+        'true'
       );
     } else {
-      this.renderer.removeAttribute(this.elementRef.nativeElement, "disabled");
+      this.renderer.removeAttribute(this.elementRef.nativeElement, 'disabled');
     }
   }
 
@@ -95,11 +108,11 @@ export class ComboboxComponent
       } else {
         this.selectedItem = this.displayProperty
           ? {
-              id: "unselected",
+              id: 'unselected',
               [this.displayProperty]: this.placeholder,
             }
           : this.placeholder;
-          this.loading = false;
+        this.loading = false;
       }
     }
   }
@@ -125,23 +138,23 @@ export class ComboboxComponent
     if (event.key.length === 1) {
       this.userInput += event.key;
       this.focusMatchingItem();
-    } else if (event.key === "Backspace") {
+    } else if (event.key === 'Backspace') {
       this.userInput = this.userInput.slice(0, -1);
       this.focusMatchingItem();
     }
 
     clearTimeout(this.timerId);
     this.timerId = setTimeout(() => {
-      this.userInput = "";
+      this.userInput = '';
     }, 1000);
   }
 
   focusMatchingItem() {
     const oldItem = document.getElementById(
-      "option-" + this.id + "-" + this.matchingIndex
+      'option-' + this.id + '-' + this.matchingIndex
     );
     if (oldItem) {
-      oldItem.classList.remove("focused");
+      oldItem.classList.remove('focused');
     }
 
     const matchingIndex = this.items.findIndex((item) =>
@@ -152,9 +165,9 @@ export class ComboboxComponent
 
     if (matchingIndex !== -1) {
       const item = document.getElementById(
-        "option-" + this.id + "-" + matchingIndex
+        'option-' + this.id + '-' + matchingIndex
       );
-      item?.classList.add("focused");
+      item?.classList.add('focused');
       item?.focus();
       this.comboBox?.nativeElement.focus();
       this.matchingIndex = matchingIndex;

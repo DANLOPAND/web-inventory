@@ -59,7 +59,7 @@ export class ModalComponent implements OnInit, OnChanges {
       this.data = undefined;
       this.extraData = undefined;
       this.config = -1;
-    } , 200);
+    }, 200);
   }
 
   openModal() {
@@ -114,28 +114,37 @@ export class ModalComponent implements OnInit, OnChanges {
         this.extraData = Object.assign({}, this.data);
         this.getRoles();
         break;
-        case 6:
-          this.data = {};
-          this.extraData = {};
-          this.getRoles();
-          break;
-        case 7:
-          this.data = Object.assign({}, this.data);
-          this.extraData = Object.assign({}, this.data);
-          this.getRoles();
-          break;
+      case 6:
+        this.data = {};
+        this.extraData = {};
+        this.getRoles();
+        break;
+      case 7:
+        this.data = Object.assign({}, this.data);
+        this.extraData = Object.assign({}, this.data);
+        this.getRoles();
+        break;
       default:
         this.preventCloseModal = false;
         break;
     }
   }
 
-  onEmployeeSelected(event: any) {
-    this.data['employeeId'] = event.cc;
-    this.extraData['employee'] = event;
+  onEmployeeSelected(employee: any) {
+    this.data['employeeId'] = employee.cc;
+    this.extraData['employee'] = employee;
     const temp = Object.assign({}, this.extraData);
     this.extraData = undefined;
     this.extraData = temp;
+
+    if (this.config == 1) {
+      console.log(this.extraData.product);
+      if (this.extraData.product) {
+        if (this.extraData.product.productRole.roleId != employee.roleId) {
+          this.extraData.product = undefined;
+        }
+      }
+    }
   }
 
   onProductSelected(event: any) {
@@ -159,6 +168,7 @@ export class ModalComponent implements OnInit, OnChanges {
     const temp = Object.assign({}, this.extraData);
     this.extraData = undefined;
     this.extraData = temp;
+    console.log(this.extraData);
   }
 
   onAmountChanged(event: any) {
@@ -377,35 +387,35 @@ export class ModalComponent implements OnInit, OnChanges {
     this.loading = true;
     let petition: any = {
       productId: this.extraData.productId,
-      productRoleId: this.extraData.role ? this.extraData.role.roleId : this.extraData.productRole.roleId,
+      productRoleId: this.extraData.role
+        ? this.extraData.role.roleId
+        : this.extraData.productRole.roleId,
       productName: this.extraData.productName,
       price: this.extraData.price,
       unitCompensation: this.extraData.unitCompensation / 100,
       packagesCompensation: this.extraData.packageCompensation / 100,
     };
 
-    this._managementService    
-      .editProduct(petition)
-      .subscribe((response) => {
-        if (response.valid) {
-          this._popupService.addPopup({
-            content: 'El producto se ha editado correctamente',
-            seconds: 5,
-            autoClose: true,
-            type: this.configPopup.SUCCESS,
-          });
-          this.cancelModal();
-          this.loading = false;
-        } else {
-          this._popupService.addPopup({
-            content: 'No se ha podido editar el producto',
-            seconds: 5,
-            autoClose: true,
-            type: this.configPopup.ERROR,
-          });
-          this.loading = false;
-        }
-      });
+    this._managementService.editProduct(petition).subscribe((response) => {
+      if (response.valid) {
+        this._popupService.addPopup({
+          content: 'El producto se ha editado correctamente',
+          seconds: 5,
+          autoClose: true,
+          type: this.configPopup.SUCCESS,
+        });
+        this.cancelModal();
+        this.loading = false;
+      } else {
+        this._popupService.addPopup({
+          content: 'No se ha podido editar el producto',
+          seconds: 5,
+          autoClose: true,
+          type: this.configPopup.ERROR,
+        });
+        this.loading = false;
+      }
+    });
   }
 
   editEmployee(): void {
@@ -414,31 +424,31 @@ export class ModalComponent implements OnInit, OnChanges {
       cc: this.extraData.cc,
       name: this.extraData.name,
       lastName: this.extraData.lastName,
-      roleId: this.extraData.role ? this.extraData.role.roleId : this.extraData.roleId,
+      roleId: this.extraData.role
+        ? this.extraData.role.roleId
+        : this.extraData.roleId,
       password: this.extraData.cc,
     };
-    this._managementService
-      .editEmployee(petition)
-      .subscribe((response) => {
-        if (response.valid) {
-          this._popupService.addPopup({
-            content: 'El empleado se ha editado correctamente',
-            seconds: 5,
-            autoClose: true,
-            type: this.configPopup.SUCCESS,
-          });
-          this.cancelModal();
-          this.loading = false;
-        } else {
-          this._popupService.addPopup({
-            content: 'No se ha podido editar el empleado',
-            seconds: 5,
-            autoClose: true,
-            type: this.configPopup.ERROR,
-          });
-          this.loading = false;
-        }
-      });
+    this._managementService.editEmployee(petition).subscribe((response) => {
+      if (response.valid) {
+        this._popupService.addPopup({
+          content: 'El empleado se ha editado correctamente',
+          seconds: 5,
+          autoClose: true,
+          type: this.configPopup.SUCCESS,
+        });
+        this.cancelModal();
+        this.loading = false;
+      } else {
+        this._popupService.addPopup({
+          content: 'No se ha podido editar el empleado',
+          seconds: 5,
+          autoClose: true,
+          type: this.configPopup.ERROR,
+        });
+        this.loading = false;
+      }
+    });
   }
 
   generatePDF(data: any = this.data) {

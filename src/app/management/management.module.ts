@@ -13,6 +13,7 @@ import { ProductsComponent } from './components/products/products.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { ComboboxComponent } from '../components/combobox/combobox.component';
 import { InputNumberComponent } from '../components/input-number/input-number.component';
+import { ClickOutsideDdownDirective } from '../components/clickOutsideDdown.directive';
 
 
 
@@ -31,7 +32,8 @@ import { InputNumberComponent } from '../components/input-number/input-number.co
     ComboboxComponent,
     InputNumberComponent,
     FilterProductsByRolePipe,
-    FilterProductsPipe
+    FilterProductsPipe,
+    ClickOutsideDdownDirective
   ],
   imports: [
     CommonModule,
